@@ -38,7 +38,7 @@ jobs:
             TEST_CONTAINER_ID=$(docker run -d node:8.11.1-alpine tail -f /dev/null)
             docker cp . $TEST_CONTAINER_ID:/
             docker exec $TEST_CONTAINER_ID /bin/sh -c 'apk update && apk add --no-cache socat bash'
-            docker exec -d $TEST_CONTAINER_ID /bin/bash -c "socat TCP-LISTEN:4848,fork TCP:$ENGINE_IP:4848"
+            docker exec -d $TEST_CONTAINER_ID /bin/bash -c "socat TCP-LISTEN:4848,fork TCP:$ENGINE_IP:9076"
             docker exec $TEST_CONTAINER_ID /bin/bash -c 'npm run -s test:integration'
       - store_artifacts:
           path: dist
