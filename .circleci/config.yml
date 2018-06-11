@@ -33,7 +33,7 @@ jobs:
           command: |
             ENGINE_VERSION=$(curl -s "https://registry.hub.docker.com/v2/repositories/qlikcore/engine/tags/" | docker run -i stedolan/jq -r '."results"[0]["name"]' 2>/dev/null)
             echo "Will start Qlik Associative Engine version '$ENGINE_VERSION'"
-            ENGINE_CONTAINER_ID=$(docker run -d qlikcore/engine:$ENGINE_VERSION -S AcceptEULA=yes)
+            ENGINE_CONTAINER_ID=$(docker run -d qlikcore/engine:$ENGINE_VERSION -S AcceptEULA=yes -v ./examples/data:$PWD/examples/data)
             ENGINE_IP=$(docker inspect -f '{{ .NetworkSettings.IPAddress }}' $ENGINE_CONTAINER_ID)
             TEST_CONTAINER_ID=$(docker run -d node:8.11.1-alpine tail -f /dev/null)
             docker cp . $TEST_CONTAINER_ID:/
